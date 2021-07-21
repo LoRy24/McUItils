@@ -3,6 +3,7 @@ package com.github.lory24.mcuitils;
 import com.github.lory24.mcuitils.api.GUIButton;
 import com.github.lory24.mcuitils.api.GUIButtonEvents;
 import com.github.lory24.mcuitils.api.GUICustomItem;
+import com.github.lory24.mcuitils.utils.GuiLines;
 import lombok.Getter;
 import com.github.lory24.mcuitils.api.GUItem;
 import org.bukkit.Bukkit;
@@ -20,7 +21,7 @@ import java.util.HashMap;
 @SuppressWarnings("unused")
 public class McGUI implements Listener {
 
-    @Getter private final int invSize;
+    @Getter private final GuiLines invSize;
     private final Inventory inventory;
     private final HashMap<ItemStack, GUIButton> buttons;
 
@@ -30,10 +31,10 @@ public class McGUI implements Listener {
      * @param invSize The size of the inventory
      * @param plugin The main class of the plugin that uses this API
      */
-    public McGUI(final String name, int invSize,
+    public McGUI(final String name, GuiLines invSize,
                  Plugin plugin) {
         this.invSize = invSize;
-        inventory = Bukkit.createInventory(null, invSize, name);
+        inventory = Bukkit.createInventory(null, this.invSize.getSize(), name);
         this.buttons = new HashMap<>();
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
@@ -52,7 +53,7 @@ public class McGUI implements Listener {
      * @param name The display name of the block
      */
     public void fillBlacksWith(Material m, String name) {
-        for (int i = 0; i < invSize; i++) {
+        for (int i = 0; i < invSize.getSize(); i++) {
             if (inventory.getItem(i) == null) inventory.setItem(i, new GUICustomItem(m).setName(name).buildToItemStack());
         }
     }

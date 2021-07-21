@@ -1,4 +1,4 @@
-package com.github.lory24.mcuitils.utils;
+package com.github.lory24.mcuitils.api;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

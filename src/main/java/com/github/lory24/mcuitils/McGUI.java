@@ -1,10 +1,10 @@
 package com.github.lory24.mcuitils;
 
-import com.github.lory24.mcuitils.utils.GUIButton;
-import com.github.lory24.mcuitils.utils.GUIButtonEvents;
-import com.github.lory24.mcuitils.utils.GUICustomItem;
+import com.github.lory24.mcuitils.api.GUIButton;
+import com.github.lory24.mcuitils.api.GUIButtonEvents;
+import com.github.lory24.mcuitils.api.GUICustomItem;
 import lombok.Getter;
-import com.github.lory24.mcuitils.utils.GUItem;
+import com.github.lory24.mcuitils.api.GUItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

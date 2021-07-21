@@ -1,4 +1,4 @@
-package com.github.lory24.mcuitils.utils;
+package com.github.lory24.mcuitils.api;
 
 import lombok.Getter;
 

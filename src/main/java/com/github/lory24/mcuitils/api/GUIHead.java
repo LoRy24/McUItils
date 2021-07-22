@@ -63,7 +63,7 @@ public class GUIHead extends GUItem {
             GameProfile profile = new GameProfile(UUID.randomUUID(), null);
             profile.getProperties().put("textures", new Property("textures", this.texture));
             try {
-                Field field = profile.getClass().getDeclaredField("profile");
+                Field field = meta.getClass().getDeclaredField("profile");
                 field.setAccessible(true);
                 field.set(meta, profile);
             } catch (SecurityException | NoSuchFieldException | IllegalAccessException e) {

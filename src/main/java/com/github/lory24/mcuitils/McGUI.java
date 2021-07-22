@@ -13,7 +13,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
@@ -23,7 +22,7 @@ public class McGUI implements Listener {
 
     @Getter private final GuiLines invSize;
     private final Inventory inventory;
-    private final HashMap<ItemStack, GUIButton> buttons;
+    private final HashMap<Integer, GUIButton> buttons;
 
     /**
      * The constructor for the McGUI object.
@@ -65,7 +64,7 @@ public class McGUI implements Listener {
      * @param events The events listener for when you interact with this button
      */
     public void createButton(final GUItem item, int index, final GUIButtonEvents events) {
-        buttons.put(item.buildToItemStack(), new GUIButton(item, events));
+        buttons.put(index, new GUIButton(item, events));
         this.inventory.setItem(index, item.buildToItemStack());
     }
 
@@ -78,15 +77,15 @@ public class McGUI implements Listener {
         if (!event.getInventory().equals(this.inventory)) return;
         event.setCancelled(true);
         if (event.getCurrentItem() == null) return;
-        if (!this.buttons.containsKey(event.getCurrentItem())) return;
-        if (this.buttons.get(event.getCurrentItem()).getButtonEvents().isTwoClicksTypes()) {
+        if (!this.buttons.containsKey(event.getSlot())) return;
+        if (this.buttons.get(event.getRawSlot()).getButtonEvents().isTwoClicksTypes()) {
             if (event.getClick().isLeftClick()) {
-                this.buttons.get(event.getCurrentItem()).getButtonEvents().getAClick().run();
-            } else if (event.getClick().isRightClick()) this.buttons.get(event.getCurrentItem()).getButtonEvents()
+                this.buttons.get(event.getSlot()).getButtonEvents().getAClick().run();
+            } else if (event.getClick().isRightClick()) this.buttons.get(event.getSlot()).getButtonEvents()
                     .getBClick().run();
             return;
         }
-        this.buttons.get(event.getCurrentItem()).getButtonEvents()
+        this.buttons.get(event.getSlot()).getButtonEvents()
                 .getAClick().run();
     }
 }

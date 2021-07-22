@@ -77,15 +77,15 @@ public class McGUI implements Listener {
         if (!event.getInventory().equals(this.inventory)) return;
         event.setCancelled(true);
         if (event.getCurrentItem() == null) return;
-        if (!this.buttons.containsKey(event.getSlot())) return;
+        if (!this.buttons.containsKey(event.getRawSlot())) return;
         if (this.buttons.get(event.getRawSlot()).getButtonEvents().isTwoClicksTypes()) {
             if (event.getClick().isLeftClick()) {
-                this.buttons.get(event.getSlot()).getButtonEvents().getAClick().run();
-            } else if (event.getClick().isRightClick()) this.buttons.get(event.getSlot()).getButtonEvents()
+                this.buttons.get(event.getRawSlot()).getButtonEvents().getAClick().run();
+            } else if (event.getClick().isRightClick()) this.buttons.get(event.getRawSlot()).getButtonEvents()
                     .getBClick().run();
             return;
         }
-        this.buttons.get(event.getSlot()).getButtonEvents()
+        this.buttons.get(event.getRawSlot()).getButtonEvents()
                 .getAClick().run();
     }
 }

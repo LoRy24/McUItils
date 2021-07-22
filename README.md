@@ -67,7 +67,11 @@ So here are some example of its methods:
 GUIHead head = new GUIHead();
 head.setSkullOwner(ownerName); // Set the owner of the head
 ```
-In the next versions, im going to add the custom_head_support (Insert the base64 texture and there we go!).
+
+If you want to set a custom head texture to your skull, you can use the method called setCustomTexture.
+```java
+head.setCustomTexture(base64formatTexture);
+```
 
 ## License
 You can read the license into the LICENSE file. Remember also that the project is open-source, so

@@ -6,7 +6,7 @@
 
     <groupId>com.github.lory24</groupId>
     <artifactId>McUItils</artifactId>
-    <version>1.0-RELEASE</version>
+    <version>1.0.1-RELEASE</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

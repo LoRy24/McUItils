@@ -14,6 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
@@ -42,7 +43,7 @@ public class McGUI implements Listener {
      * Method to open this GUI to a player
      * @param player The player that you want to open the gui to
      */
-    public void openInventoryTo(final Player player) {
+    public void openInventoryTo(@NotNull final Player player) {
         player.openInventory(inventory);
     }
 

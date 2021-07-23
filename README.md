@@ -5,7 +5,7 @@ This is a simple API to simplify GUI creation in Minecraft
 #### Create the gui
 The first thing that you have to do is create the GUI object. To do that, you have to write:
 ```java
-McGUI gui = new McGUI(nameOfTheGui, sizeOfTheGui, mainClass);
+McGUI gui = new McGUI("GuiName", GuiLines.LINES, main.instance);
 ```
 
 After do this, you can start inserting items in there. For example, if you want to fill the empty slots with

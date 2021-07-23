@@ -56,7 +56,7 @@ public class McGUI implements Listener {
      * @param m The material of the block
      * @param name The display name of the block
      */
-    public void fillBlacksWith(Material m, String name) {
+    public void fillBlanksWith(Material m, String name) {
         for (int i = 0; i < invSize.getSize(); i++) {
             if (inventory.getItem(i) == null) inventory.setItem(i, new GUICustomItem(m).setName(name).buildToItemStack());
         }

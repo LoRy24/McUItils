@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -34,7 +35,8 @@ public class McGUI implements Listener {
     public McGUI(final String name, GuiLines invSize,
                  Plugin plugin) {
         this.invSize = invSize;
-        inventory = Bukkit.createInventory(null, this.invSize.getSize(), name);
+        inventory = invSize != GuiLines.ONE_LINE_FIVE_SLOTS ? Bukkit.createInventory(null, this.invSize.getSize(), name) :
+                Bukkit.createInventory(null, InventoryType.HOPPER, name);
         this.buttons = new HashMap<>();
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
@@ -81,7 +83,6 @@ public class McGUI implements Listener {
 
         if (event.getCurrentItem() == null) return;
         if (!this.buttons.containsKey(event.getRawSlot())) return;
-        if (this.inventory.getItem(event.getRawSlot()) != event.getCurrentItem()) return;
 
         if (this.buttons.get(event.getRawSlot()).getButtonEvents().isTwoClicksTypes()) {
             if (event.getClick().isLeftClick()) {

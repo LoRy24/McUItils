@@ -12,7 +12,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -32,7 +31,8 @@ public class McGUI implements Listener {
      * @param invSize The size of the inventory
      * @param plugin The main class of the plugin that uses this API
      */
-    public McGUI(final String name, GuiLines invSize, Plugin plugin) {
+    public McGUI(final String name, GuiLines invSize,
+                 Plugin plugin) {
         this.invSize = invSize;
         inventory = Bukkit.createInventory(null, this.invSize.getSize(), name);
         this.buttons = new HashMap<>();
@@ -44,8 +44,6 @@ public class McGUI implements Listener {
      * @param player The player that you want to open the gui to
      */
     public void openInventoryTo(@NotNull final Player player) {
-        for (GUIButton b : buttons.values())
-            inventory.setItem(b.getIndex(), b.getItem().buildToItemStack());
         player.openInventory(inventory);
     }
 
@@ -67,7 +65,8 @@ public class McGUI implements Listener {
      * @param events The events listener for when you interact with this button
      */
     public void createButton(final GUItem item, int index, final GUIButtonEvents events) {
-        buttons.put(index, new GUIButton(item, events, index));
+        buttons.put(index, new GUIButton(item, events));
+        this.inventory.setItem(index, item.buildToItemStack());
     }
 
     /**
@@ -78,7 +77,6 @@ public class McGUI implements Listener {
     public void onInventoryClick(InventoryClickEvent event) {
         if (!event.getInventory().equals(this.inventory)) return;
         event.setCancelled(true);
-        if (!event.getSlotType().equals(InventoryType.SlotType.CONTAINER))
         if (event.getCurrentItem() == null) return;
         if (!this.buttons.containsKey(event.getRawSlot())) return;
         if (this.buttons.get(event.getRawSlot()).getButtonEvents().isTwoClicksTypes()) {

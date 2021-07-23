@@ -44,6 +44,8 @@ public class McGUI implements Listener {
      * @param player The player that you want to open the gui to
      */
     public void openInventoryTo(@NotNull final Player player) {
+        for (GUIButton button : buttons.values()) inventory.setItem(button.getIndex(),
+                button.getItem().buildToItemStack());
         player.openInventory(inventory);
     }
 
@@ -65,8 +67,7 @@ public class McGUI implements Listener {
      * @param events The events listener for when you interact with this button
      */
     public void createButton(final GUItem item, int index, final GUIButtonEvents events) {
-        buttons.put(index, new GUIButton(item, events));
-        this.inventory.setItem(index, item.buildToItemStack());
+        buttons.put(index, new GUIButton(item, events, index));
     }
 
     /**
@@ -77,9 +78,11 @@ public class McGUI implements Listener {
     public void onInventoryClick(InventoryClickEvent event) {
         if (!event.getInventory().equals(this.inventory)) return;
         event.setCancelled(true);
+
         if (event.getCurrentItem() == null) return;
         if (!this.buttons.containsKey(event.getRawSlot())) return;
-        if (this.inventory.getItem(event.getRawSlot()) != event.getCurrentItem())
+        if (this.inventory.getItem(event.getRawSlot()) != event.getCurrentItem()) return;
+
         if (this.buttons.get(event.getRawSlot()).getButtonEvents().isTwoClicksTypes()) {
             if (event.getClick().isLeftClick()) {
                 this.buttons.get(event.getRawSlot()).getButtonEvents().getAClick().run();

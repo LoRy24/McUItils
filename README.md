@@ -1,76 +1,39 @@
 # McUItils
-This is a simple API to simplify GUI creation in Minecraft
+This is a simple Minecraft 1.8 API that helps you to create a custom GUI Menus with cool features, like
+buttons or custom heads.
 
 ## How to use it:
-#### Create the gui
-The first thing that you have to do is create the GUI object. To do that, you have to write:
+
+All the documentation about this API can be found at the sequent link:
+https://lory24.gitbook.io/mcuitils/ <br>
+
+### Here are some important things about this API
+
+Using this API, you can build Minecraft's GUI in a very simple way. So, when you want to create
+an MC GUI, you have to create the McGUI object like above:
 ```java
-McGUI gui = new McGUI("GuiName", GuiLines.LINES, main.instance);
+McGUI gui = new McGUI("GUI Title", GuiLines.LINES, MainClass.getInstance());
 ```
 
-After do this, you can start inserting items in there. For example, if you want to fill the empty slots with
-a block, you can write:
-
+After creating the GUI, you can also create a custom item and subsequently create a button into
+the interface. here is an example:
 ```java
-gui.fillBlacksWith(Material.material, name);
+GUItem item = new GUICustomItem(Material.BARRIER).setName("§cName");
 ```
 
-#### Create a button
-
-The most important things that you can add to the gui are... buttons! So... if you want to create one,
-you have to do this steps: <br> <br>
-
-First, you have to create the GUI item.
+When you have created a custom item, you can now insert it into the GUI using the **gui.createButton()** 
+method, writing something like this:
 ```java
-GUItem item = new GUICustomItem(Material.material); // Create the custom item object
-```
-
-So you can also add more details at the item, for example a custom name, a description, a type and more.
-You can make it in to ways:
-```java
-// 1 | If you want to do it after creating the object:
-item.setName("§cDisplayName"); // Set a name to the item
-item.setAmount(1); // Set the amount of the item
-item.setLore("Line1", "Line2"); // Set the description of the item by strings
-item.setLore(arrayList); // Set the description of the item by arrayList
-
-// 2 | If you want to do it inside the object declaration:
-GUItem item2 = new GUICustomItem(Material.material).setName("§cName");
-```
-After this, you can add the item to the GUI as a button
-```java
-// Remember: The slot is the array index, so it starts counting from 0 (First line: 0-8 and not 1-9)
-
-// If you want to create an item with a generic event listener, so it execute the click actions when you interact
-// with the button using every types of interactions (Such as left click, right click or drop key).
-gui.createButton(item, slot, new GUIButtonEvents(() -> {
-    // Write actions here
+gui.createButton(item, 4, new GUIButtonEvents(() -> {
+    // put here all the actions for when you interact with the button
 }));
-
-// If you want to separate left click and right click event actions
-gui.createButton(item, slot, new GUIButtonEvents(() -> {
-    // Write left click actions here
-}, () -> { /* Write right click actions here */ }));
 ```
 
-#### Open the gui
-
-The last thing to do and also the most important is... opening the gui! You can do that writing this:
+After having created all the menu features, you can open the GUI to a specific player, using the
+gui.openInventoryTo() method. Remember: the parameter is the player who you want to open the gui.
+Here is an example:
 ```java
-gui.openInventoryTo(player);
-```
-
-### Working with heads
-If you want to put a player head into the GUI, you can use a special item class named **GUIHead**.
-So here are some example of its methods:
-```java
-GUIHead head = new GUIHead();
-head.setSkullOwner(ownerName); // Set the owner of the head
-```
-
-If you want to set a custom head texture to your skull, you can use the method called setCustomTexture.
-```java
-head.setCustomTexture(base64formatTexture);
+gui.openInventoryTo(Bukkit.getPlayerExact("PlayerName"));
 ```
 
 ## License

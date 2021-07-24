@@ -1,5 +1,6 @@
 package com.github.lory24.mcuitils.api;
 
+import com.github.lory24.mcuitils.utils.ItemEnchant;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import lombok.Getter;
@@ -59,6 +60,9 @@ public class GUIHead extends GUItem {
         if (getName() != null) meta.setDisplayName(getName());
         if (getSkullOwner() != null) meta.setOwner(getSkullOwner());
 
+        for (ItemEnchant e : getEnchants()) meta.addEnchant(e.getEnchant(), e.getLevel(), e.isIgnoreLimit());
+
+        // Set custom texture
         if (isCustomTexture()) {
             GameProfile profile = new GameProfile(UUID.randomUUID(), null);
             profile.getProperties().put("textures", new Property("textures", this.texture));
@@ -66,10 +70,9 @@ public class GUIHead extends GUItem {
                 Field field = meta.getClass().getDeclaredField("profile");
                 field.setAccessible(true);
                 field.set(meta, profile);
-            } catch (SecurityException | NoSuchFieldException | IllegalAccessException e) {
-                e.printStackTrace();
-            }
+            } catch (Exception e) { e.printStackTrace(); }
         }
+
         meta.setLore(getLore());
         i.setItemMeta(meta);
         return i;

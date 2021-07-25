@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -34,7 +35,8 @@ public class McGUI implements Listener {
     public McGUI(final String name, GuiLines invSize,
                  Plugin plugin) {
         this.invSize = invSize;
-        inventory = Bukkit.createInventory(null, this.invSize.getSize(), name);
+        inventory = invSize != GuiLines.ONE_LINE_FIVE_SLOTS ? Bukkit.createInventory(null, this.invSize.getSize(), name) :
+                Bukkit.createInventory(null, InventoryType.HOPPER, name);
         this.buttons = new HashMap<>();
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
@@ -52,7 +54,7 @@ public class McGUI implements Listener {
      * @param m The material of the block
      * @param name The display name of the block
      */
-    public void fillBlacksWith(Material m, String name) {
+    public void fillBlanksWith(Material m, String name) {
         for (int i = 0; i < invSize.getSize(); i++) {
             if (inventory.getItem(i) == null) inventory.setItem(i, new GUICustomItem(m).setName(name).buildToItemStack());
         }
@@ -65,8 +67,8 @@ public class McGUI implements Listener {
      * @param events The events listener for when you interact with this button
      */
     public void createButton(final GUItem item, int index, final GUIButtonEvents events) {
-        buttons.put(index, new GUIButton(item, events));
-        this.inventory.setItem(index, item.buildToItemStack());
+        buttons.put(index, new GUIButton(item, events, index));
+        inventory.setItem(index, item.buildToItemStack());
     }
 
     /**
@@ -77,8 +79,10 @@ public class McGUI implements Listener {
     public void onInventoryClick(InventoryClickEvent event) {
         if (!event.getInventory().equals(this.inventory)) return;
         event.setCancelled(true);
+
         if (event.getCurrentItem() == null) return;
         if (!this.buttons.containsKey(event.getRawSlot())) return;
+
         if (this.buttons.get(event.getRawSlot()).getButtonEvents().isTwoClicksTypes()) {
             if (event.getClick().isLeftClick()) {
                 this.buttons.get(event.getRawSlot()).getButtonEvents().getAClick().run();

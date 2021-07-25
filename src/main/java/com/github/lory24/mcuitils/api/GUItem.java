@@ -1,7 +1,9 @@
 package com.github.lory24.mcuitils.api;
 
+import com.github.lory24.mcuitils.utils.ItemEnchant;
 import lombok.Getter;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ public abstract class GUItem {
     @Getter private int amount = 1;
     @Getter private List<String> lore = new ArrayList<>();
     @Getter private int type;
+    @Getter private final List<ItemEnchant> enchants;
 
     /* ********************************************************************************************************* */
 
@@ -24,6 +27,7 @@ public abstract class GUItem {
      */
     public GUItem(Material material) {
         this.material = material;
+        this.enchants = new ArrayList<>();
     }
 
     /**
@@ -76,6 +80,42 @@ public abstract class GUItem {
         return this;
     }
 
+    /**
+     * Add an enchant to the item
+     * @param enchantment The enchantment to add
+     * @param level the level of the enchantment
+     * @param ignoreLimit if you want to ignore the enchantment limit
+     * @return The updated GUItem
+     */
+    public GUItem addEnchant(Enchantment enchantment, int level, boolean ignoreLimit) {
+        enchants.add(new ItemEnchant(enchantment, level, ignoreLimit));
+        return this;
+    }
+
+    /**
+     * Set the enchants passed in params as the item enchants. The param in this case
+     * is an ItemEnchant array
+     * @param enchants The enchants that the item has to have
+     * @return The updated GUItem
+     */
+    public GUItem setEnchants(ItemEnchant... enchants) {
+        this.enchants.clear();
+        this.enchants.addAll(
+                Arrays.asList(enchants));
+        return this;
+    }
+
+    /**
+     * Set the enchants passed in params as the item enchants. The param in this case is a List of
+     * ItemEnchants
+     * @param enchants The enchants that the item has to have
+     * @return The updated GUItem
+     */
+    public GUItem setEnchants(List<ItemEnchant> enchants) {
+        this.enchants.clear();
+        this.enchants.addAll(enchants);
+        return this;
+    }
 
     /* ********************************************************************************************************* */
 

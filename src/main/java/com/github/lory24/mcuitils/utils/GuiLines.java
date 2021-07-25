@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @SuppressWarnings("unused")
 public enum GuiLines {
+    ONE_LINE_FIVE_SLOTS(5),
     ONE_LINE(9),
     TWO_LINES(18),
     THREE_LINES(27),

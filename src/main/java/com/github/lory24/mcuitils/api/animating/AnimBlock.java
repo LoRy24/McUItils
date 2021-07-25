@@ -2,11 +2,12 @@ package com.github.lory24.mcuitils.api.animating;
 
 import com.github.lory24.mcuitils.api.GUItem;
 import lombok.Getter;
+import org.bukkit.inventory.ItemStack;
 
 public class AnimBlock {
     @Getter private final AnimCompType type;
     @Getter private int a; // Used for Timeouts
-    @Getter private GUItem b; // For Items
+    @Getter private ItemStack b; // For Items
 
     /**
      * A constructor for the AnimBlock for when it is for a timeout
@@ -21,7 +22,7 @@ public class AnimBlock {
      * A constructor for the AnimBlock for when it is for an item replacement
      * @param b The GUItem that you want to use as replacement
      */
-    public AnimBlock(GUItem b) {
+    public AnimBlock(ItemStack b) {
         this.type = AnimCompType.SET_BLOCK;
         this.b = b;
     }

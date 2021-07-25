@@ -1,11 +1,8 @@
 package com.github.lory24.mcuitils;
 
-import com.github.lory24.mcuitils.api.GUIButton;
-import com.github.lory24.mcuitils.api.GUIButtonEvents;
-import com.github.lory24.mcuitils.api.GUICustomItem;
+import com.github.lory24.mcuitils.api.*;
 import com.github.lory24.mcuitils.utils.GuiLines;
 import lombok.Getter;
-import com.github.lory24.mcuitils.api.GUItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -17,7 +14,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @SuppressWarnings("unused")
 public class McGUI implements Listener {
@@ -25,6 +24,8 @@ public class McGUI implements Listener {
     @Getter private final GuiLines invSize;
     private final Inventory inventory;
     private final HashMap<Integer, GUIButton> buttons;
+    private final List<GUIAnimatedItem> animItems;
+    private final Plugin plugin;
 
     /**
      * The constructor for the McGUI object.
@@ -38,7 +39,9 @@ public class McGUI implements Listener {
         inventory = invSize != GuiLines.ONE_LINE_FIVE_SLOTS ? Bukkit.createInventory(null, this.invSize.getSize(), name) :
                 Bukkit.createInventory(null, InventoryType.HOPPER, name);
         this.buttons = new HashMap<>();
-        Bukkit.getPluginManager().registerEvents(this, plugin);
+        this.animItems = new ArrayList<>();
+        this.plugin = plugin;
+        Bukkit.getPluginManager().registerEvents(this, this.plugin);
     }
 
     /**
@@ -47,6 +50,7 @@ public class McGUI implements Listener {
      */
     public void openInventoryTo(@NotNull final Player player) {
         player.openInventory(inventory);
+        for (GUIAnimatedItem i : animItems) i.getAnimation().executeAnimation(this.plugin, player, this.inventory);
     }
 
     /**
@@ -67,8 +71,23 @@ public class McGUI implements Listener {
      * @param events The events listener for when you interact with this button
      */
     public void createButton(final GUItem item, int index, final GUIButtonEvents events) {
+        buttons.remove(index);
         buttons.put(index, new GUIButton(item, events, index));
         inventory.setItem(index, item.buildToItemStack());
+    }
+
+    /**
+     * Method used to create an Animated Button and insert it into the GUI
+     * @param item The animated item object
+     * @param index The index of the item: It's where you want to put the item into the GUI
+     * @param events The events listener for when you interact with this button
+     */
+    public void createAnimatedButton(final GUIAnimatedItem item, int index, final GUIButtonEvents events) {
+        buttons.remove(index);
+        buttons.put(index, new GUIButton(item.getDefaultItem(), events, index));
+        inventory.setItem(index, item.getDefaultItem().buildToItemStack());
+        animItems.remove(item);
+        animItems.add(item);
     }
 
     /**

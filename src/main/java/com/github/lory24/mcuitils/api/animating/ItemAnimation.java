@@ -42,12 +42,15 @@ public class ItemAnimation {
                     switch (b.getType()) {
                         case TIMEOUT: {
                             try {
+                                if (!player.getOpenInventory().getTopInventory()
+                                        .equals(inventory)) break;
                                 Thread.sleep(b.getA());
                             } catch (InterruptedException e) { e.printStackTrace(); }
                         }
 
                         case SET_BLOCK: {
                             try {
+                                if (!player.getOpenInventory().getTopInventory().equals(inventory)) break;
                                 player.getOpenInventory().getTopInventory().setItem(itemIndex, b.getB());
                             } catch (Exception e) { e.printStackTrace(); }
                         }

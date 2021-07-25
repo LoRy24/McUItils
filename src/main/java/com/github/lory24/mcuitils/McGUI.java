@@ -46,8 +46,6 @@ public class McGUI implements Listener {
      * @param player The player that you want to open the gui to
      */
     public void openInventoryTo(@NotNull final Player player) {
-        for (GUIButton button : buttons.values()) inventory.setItem(button.getIndex(),
-                button.getItem().buildToItemStack());
         player.openInventory(inventory);
     }
 
@@ -70,6 +68,7 @@ public class McGUI implements Listener {
      */
     public void createButton(final GUItem item, int index, final GUIButtonEvents events) {
         buttons.put(index, new GUIButton(item, events, index));
+        inventory.setItem(index, item.buildToItemStack());
     }
 
     /**

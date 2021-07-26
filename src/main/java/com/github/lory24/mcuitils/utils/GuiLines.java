@@ -8,6 +8,7 @@ public enum GuiLines {
     ONE_LINE(9),
     TWO_LINES(18),
     THREE_LINES(27),
+    THREE_LINES_NINE_SLOTS(9),
     FOUR_LINES(36),
     FIVE_LINES(45),
     SIX_LINES(54);

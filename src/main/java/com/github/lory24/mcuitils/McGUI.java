@@ -36,8 +36,8 @@ public class McGUI implements Listener {
     public McGUI(final String name, GuiLines invSize,
                  Plugin plugin) {
         this.invSize = invSize;
-        inventory = invSize != GuiLines.ONE_LINE_FIVE_SLOTS ? Bukkit.createInventory(null, this.invSize.getSize(), name) :
-                Bukkit.createInventory(null, InventoryType.HOPPER, name);
+        inventory = invSize == GuiLines.ONE_LINE_FIVE_SLOTS ? Bukkit.createInventory(null, InventoryType.HOPPER, name) : invSize == GuiLines.THREE_LINES_NINE_SLOTS ?
+                Bukkit.createInventory(null, InventoryType.DISPENSER, name) : Bukkit.createInventory(null, this.invSize.getSize(), name);
         this.buttons = new HashMap<>();
         this.animItems = new ArrayList<>();
         this.plugin = plugin;

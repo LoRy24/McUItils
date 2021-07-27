@@ -2,6 +2,7 @@ package com.github.lory24.mcuitils.api;
 
 import com.github.lory24.mcuitils.utils.ItemEnchant;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -26,6 +27,7 @@ public class GUICustomItem extends GUItem {
         ItemMeta meta = i.getItemMeta();
         if (getName() != null) meta.setDisplayName(getName());
         for (ItemEnchant e : getEnchants()) meta.addEnchant(e.getEnchant(), e.getLevel(), e.isIgnoreLimit());
+        for (ItemFlag f : getFlags()) meta.addItemFlags(f);
         meta.setLore(getLore());
         i.setItemMeta(meta);
         return i;

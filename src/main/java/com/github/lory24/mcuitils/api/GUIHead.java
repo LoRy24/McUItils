@@ -5,6 +5,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import lombok.Getter;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
@@ -61,6 +62,7 @@ public class GUIHead extends GUItem {
         if (getSkullOwner() != null) meta.setOwner(getSkullOwner());
 
         for (ItemEnchant e : getEnchants()) meta.addEnchant(e.getEnchant(), e.getLevel(), e.isIgnoreLimit());
+        for (ItemFlag f : getFlags()) meta.addItemFlags(f);
 
         // Set custom texture
         if (isCustomTexture()) {

@@ -4,6 +4,7 @@ import com.github.lory24.mcuitils.utils.ItemEnchant;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public abstract class GUItem {
     @Getter private List<String> lore = new ArrayList<>();
     @Getter private int type;
     @Getter private final List<ItemEnchant> enchants;
+    @Getter private final List<ItemFlag> flags;
 
     /* ********************************************************************************************************* */
 
@@ -28,6 +30,7 @@ public abstract class GUItem {
     public GUItem(Material material) {
         this.material = material;
         this.enchants = new ArrayList<>();
+        this.flags = new ArrayList<>();
     }
 
     /**
@@ -114,6 +117,16 @@ public abstract class GUItem {
     public GUItem setEnchants(List<ItemEnchant> enchants) {
         this.enchants.clear();
         this.enchants.addAll(enchants);
+        return this;
+    }
+
+    /**
+     * Method to add an ItemFlag to the item.
+     * @param flag The flag to add to the item
+     * @return The updated GUItem
+     */
+    public GUItem setFlag(ItemFlag flag) {
+        this.flags.add(flag);
         return this;
     }
 

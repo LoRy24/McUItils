@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +15,7 @@ import java.util.List;
 @SuppressWarnings("unused")
 public abstract class GUItem {
     @Getter private final Material material;
+    @Getter private ItemMeta itemMeta;
     @Getter private String name;
     @Getter private int amount = 1;
     @Getter private List<String> lore = new ArrayList<>();
@@ -31,6 +33,7 @@ public abstract class GUItem {
         this.material = material;
         this.enchants = new ArrayList<>();
         this.flags = new ArrayList<>();
+        this.itemMeta = new ItemStack(material).getItemMeta();
     }
 
     /**
@@ -40,6 +43,7 @@ public abstract class GUItem {
      */
     public GUItem setName(String name) {
         this.name = name;
+        this.itemMeta.setDisplayName(name);
         return this;
     }
 
@@ -60,6 +64,7 @@ public abstract class GUItem {
      */
     public GUItem setLore(String... simpleLore) {
         this.lore = Arrays.asList(simpleLore);
+        this.itemMeta.setLore(Arrays.asList(simpleLore));
         return this;
     }
 
@@ -70,6 +75,7 @@ public abstract class GUItem {
      */
     public GUItem setLore(List<String> lore) {
         this.lore = lore;
+        this.itemMeta.setLore(lore);
         return this;
     }
 
@@ -92,6 +98,7 @@ public abstract class GUItem {
      */
     public GUItem addEnchant(Enchantment enchantment, int level, boolean ignoreLimit) {
         enchants.add(new ItemEnchant(enchantment, level, ignoreLimit));
+        this.itemMeta.addEnchant(enchantment, level, ignoreLimit);
         return this;
     }
 
@@ -103,8 +110,9 @@ public abstract class GUItem {
      */
     public GUItem setEnchants(ItemEnchant... enchants) {
         this.enchants.clear();
-        this.enchants.addAll(
-                Arrays.asList(enchants));
+        this.enchants.addAll(Arrays.asList(enchants));
+        for (ItemEnchant itemEnchant : enchants) this.itemMeta.addEnchant(itemEnchant.getEnchant(),
+                itemEnchant.getLevel(), itemEnchant.isIgnoreLimit());
         return this;
     }
 
@@ -117,6 +125,8 @@ public abstract class GUItem {
     public GUItem setEnchants(List<ItemEnchant> enchants) {
         this.enchants.clear();
         this.enchants.addAll(enchants);
+        for (ItemEnchant itemEnchant : enchants) this.itemMeta.addEnchant(itemEnchant.getEnchant(),
+                itemEnchant.getLevel(), itemEnchant.isIgnoreLimit());
         return this;
     }
 
@@ -127,6 +137,17 @@ public abstract class GUItem {
      */
     public GUItem setFlag(ItemFlag flag) {
         this.flags.add(flag);
+        this.itemMeta.addItemFlags(flag);
+        return this;
+    }
+
+    /**
+     * Method to se a custom item meta based on the second meta of the item
+     * @param meta The ItemMeta to set
+     * @return The updated GUItem
+     */
+    public GUItem setCustomModelData(ItemMeta meta) {
+        this.itemMeta = meta;
         return this;
     }
 
@@ -136,5 +157,17 @@ public abstract class GUItem {
      * Method to put all the precedent item options into a new ItemStack and then return it
      * @return The final item
      */
-    public abstract ItemStack buildToItemStack();
+    public ItemStack buildToItemStack() {
+        ItemStack i = new ItemStack(getMaterial(), getAmount(), (byte) getType());
+        i.setItemMeta(this.itemMeta);
+        return i;
+    }
+
+    /**
+     * Method to add some customizations to the item.
+     * @return TEMPORALLY: the built item stack
+     */
+    public ItemStack parseCustomizations() {
+        return buildToItemStack();
+    }
 }

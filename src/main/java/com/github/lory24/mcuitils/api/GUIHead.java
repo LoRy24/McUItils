@@ -49,20 +49,10 @@ public class GUIHead extends GUItem {
         return this;
     }
 
-    /**
-     * Method to put all the precedent item options into a new ItemStack and then
-     * return it
-     * @return The final item
-     */
     @Override
-    public ItemStack buildToItemStack() {
-        ItemStack i = new ItemStack(getMaterial(), getAmount(), (byte) 3);
-        SkullMeta meta = (SkullMeta) i.getItemMeta();
-        if (getName() != null) meta.setDisplayName(getName());
-        if (getSkullOwner() != null) meta.setOwner(getSkullOwner());
-
-        for (ItemEnchant e : getEnchants()) meta.addEnchant(e.getEnchant(), e.getLevel(), e.isIgnoreLimit());
-        for (ItemFlag f : getFlags()) meta.addItemFlags(f);
+    public ItemStack parseCustomizations() {
+        ItemStack i = this.buildToItemStack();
+        SkullMeta meta = (SkullMeta) this.getItemMeta();
 
         // Set custom texture
         if (isCustomTexture()) {
@@ -75,7 +65,6 @@ public class GUIHead extends GUItem {
             } catch (Exception e) { e.printStackTrace(); }
         }
 
-        meta.setLore(getLore());
         i.setItemMeta(meta);
         return i;
     }

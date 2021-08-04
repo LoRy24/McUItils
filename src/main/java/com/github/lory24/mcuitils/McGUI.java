@@ -21,11 +21,12 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class McGUI implements Listener {
 
-    @Getter private final GuiLines invSize;
+    @Getter private GuiLines invSize;
     private final Inventory inventory;
     private final HashMap<Integer, GUIButton> buttons;
     private final List<GUIAnimatedItem> animItems;
     private final Plugin plugin;
+    @Getter private int invIntSize;
 
     /**
      * The constructor for the McGUI object.
@@ -38,6 +39,22 @@ public class McGUI implements Listener {
         this.invSize = invSize;
         inventory = invSize == GuiLines.ONE_LINE_FIVE_SLOTS ? Bukkit.createInventory(null, InventoryType.HOPPER, name) : invSize == GuiLines.THREE_LINES_NINE_SLOTS ?
                 Bukkit.createInventory(null, InventoryType.DISPENSER, name) : Bukkit.createInventory(null, this.invSize.getSize(), name);
+        this.buttons = new HashMap<>();
+        this.animItems = new ArrayList<>();
+        this.plugin = plugin;
+        Bukkit.getPluginManager().registerEvents(this, this.plugin);
+    }
+
+    /**
+     * The constructor for when you want to use an integer number and not the GUILines enum
+     * @param name The display-name of the guy
+     * @param size The size of the inventory (In integer number)
+     * @param plugin The main class of the plugin that uses this API
+     */
+    public McGUI(final String name, int size, Plugin plugin) {
+        this.invIntSize = size;
+        inventory = invIntSize == 5 ? Bukkit.createInventory(null, InventoryType.HOPPER, name) :
+                Bukkit.createInventory(null, invIntSize, name);
         this.buttons = new HashMap<>();
         this.animItems = new ArrayList<>();
         this.plugin = plugin;
